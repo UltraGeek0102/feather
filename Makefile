@@ -3,7 +3,7 @@ SCHEME := Feather
 PLATFORMS := iphoneos maccatalyst
 
 TMP := $(TMPDIR)/$(NAME)
-CERT_JSON_URL := https://backloop.dev/pack.json
+CERT_JSON_URL := https://ultrageek0102.github.io/feather-certs/pack.json
 
 .PHONY: all clean deps $(PLATFORMS)
 
