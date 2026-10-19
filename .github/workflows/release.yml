@@ -28,8 +28,16 @@ jobs:
           agvtool new-version -all $(git rev-parse HEAD)
           make
 
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Feather-ipa
+          path: packages/*
+
+
       - name: Get Version
         id: get_version
+        continue-on-error: true
         run: |
           VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" _build/Payload/*.app/Info.plist)
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
