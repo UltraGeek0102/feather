@@ -39,8 +39,10 @@ jobs:
         id: get_version
         continue-on-error: true
         run: |
-          VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" _build/Payload/*.app/Info.plist)
+          PLIST=$(ls _build/Payload/*.app/Info.plist _build/Payload/*.app/Contents/Info.plist 2>/dev/null | head -n 1)
+          VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$PLIST")
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
 
       - name: Create Release
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
