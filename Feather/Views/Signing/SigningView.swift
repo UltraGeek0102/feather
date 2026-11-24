@@ -190,7 +190,7 @@ extension SigningView {
 				SigningPropertiesView(
 					title: .localized("Identifier"),
 					initialValue: _temporaryOptions.appIdentifier ?? (app.identifier ?? ""),
-					bindingValue: $_temporaryOptions.appIdentifier
+					bindingValue: $_temporaryOptions.appIdentifier,
 					suggestion: _provisioningIdentifier()
 				)
 			}
