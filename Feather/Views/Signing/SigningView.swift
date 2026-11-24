@@ -34,6 +34,20 @@ struct SigningView: View {
 		guard certificates.indices.contains(_temporaryCertificate) else { return nil }
 		return certificates[_temporaryCertificate]
 	}
+
+	private func _provisioningIdentifier() -> String? {
+		guard
+			let cert = _selectedCert(),
+			let decoded = Storage.shared.getProvisionFileDecoded(for: cert),
+			let appId = decoded.Entitlements?["application-identifier"]?.value as? String
+		else {
+			return nil
+		}
+
+		let bundleId = appId.drop { $0 != "." }.dropFirst()
+		guard !bundleId.isEmpty, !bundleId.contains("*") else { return nil }
+		return String(bundleId)
+	}
 	
 	var app: AppInfoPresentable
 	
@@ -177,6 +191,7 @@ extension SigningView {
 					title: .localized("Identifier"),
 					initialValue: _temporaryOptions.appIdentifier ?? (app.identifier ?? ""),
 					bindingValue: $_temporaryOptions.appIdentifier
+					suggestion: _provisioningIdentifier()
 				)
 			}
 			_infoCell(.localized("Version"), desc: _temporaryOptions.appVersion ?? app.version) {
